@@ -5368,6 +5368,7 @@ var assetMaps = {};
               , r = i(n, 2)
               , o = r[0]
               , a = r[1];
+            debugger;
             return this.isExSkill() ? p.default.createImagePath(o, a, this.content.iconImage) : this.isGashaTicket() ? p.default.createImagePath(o, a, this._getGashaIcon()) : this.isCommonContents() ? t : p.default.createImagePath(o, a, this._getRewardId(), this.content.hash)
         },
         getPerticleResources: function() {
@@ -5584,9 +5585,11 @@ var assetMaps = {};
             return s.default.createSpinePath("skins", e, this.skinId)
         },
         _getIdolImagePath: function(e) {
+            debugger;
             return s.default.createImagePath("idols", e, this.idolId, this.hash)
         },
         _getIdolMoviePath: function(e) {
+            debugger;
             return s.default.createMoviePath("idols", e, this.idolId, this.hash)
         },
         _getIdolVoicePath: function(e) {
@@ -5824,6 +5827,7 @@ var assetMaps = {};
                 return i.default.createSpinePath("characters", e, this.id)
             },
             getMoviePath: function(e) {
+                debugger;
                 var t = !(arguments.length > 1 && void 0 !== arguments[1]) || arguments[1];
                 return i.default.createMoviePath("characters", e, this.id, this.hash, t)
             },
@@ -5837,6 +5841,7 @@ var assetMaps = {};
                 return this._extendedUnit.getImagePath(e)
             },
             getHashPrefixAssets: function() {
+                debugger;
                 var e = this
                   , t = f.default.cloneAndEmptyHashProperty(this);
                 return l.default.movieTypes.characters.map(function(n) {
@@ -9153,6 +9158,7 @@ var assetMaps = {};
         }),
         t.default = {
             cloneAndEmptyHashProperty: function(t) {
+                debugger;
                 return Object.assign(Object.create(e.utils.getPrototypeOf(t)), t, {
                     hash: ""
                 })
@@ -11309,6 +11315,7 @@ var assetMaps = {};
                 return "icon_idol_piece_" + this.idolConvertRewards[0].contentId + ".png"
             },
             getVoicePath: function(e) {
+                
                 return p.support_idols.includes(e) ? this._getSupportIdolVoicePath(e) : this._extendedCharacter.getVoicePath(e)
             },
             getHashPrefixAssets: function() {
@@ -11356,6 +11363,7 @@ var assetMaps = {};
                 return s.default.createSpinePath("support_idols", e, this.id)
             },
             _getSupportIdolMoviePath: function(e) {
+                debugger;
                 return s.default.createMoviePath("support_idols", e, this.id, this.hash)
             },
             _getSupportIdolVoicePath: function(e) {
@@ -14907,6 +14915,8 @@ var assetMaps = {};
         },
         encryptPath: function(e, t) {
             if (e.includes("movie")) debugger;
+
+            // debugger;
             return i.encryptPath(e, t)
         },
         decryptResource: function(e) {
@@ -15341,6 +15351,7 @@ var assetMaps = {};
     ).call(t, n(0))
 }
 , function(e, t, n) {
+    debugger; //yoyuoyoyoyoyo
     "use strict";
     (function(e, r) {
         function o(e) {
@@ -15362,6 +15373,7 @@ var assetMaps = {};
           , p = u.default.independentGashaGroupIds;
         t.default = {
             getTitleImagePath: function() {
+                debugger;
                 return "gasha_ticket" === this.name || "0" === this.image ? "gasha_ticket.png" : a.default.createImagePath("gasha", "title", this.image, this.hash)
             },
             getBgImagePath: function() {
@@ -18066,9 +18078,11 @@ var assetMaps = {};
                 return u.default.createSpinePath("skins", e, this.id)
             },
             _getIdolImagePath: function(e) {
+                debugger;
                 return u.default.createImagePath("idols", e, this._skinCharacterId, this.skinCharacters[0].hash)
             },
             _getIdolMoviePath: function(e) {
+                debugger;
                 return u.default.createMoviePath("idols", e, this._skinCharacterId, this.skinCharacters[0].hash)
             },
             _getIdolVoicePath: function(e) {
@@ -18123,7 +18137,7 @@ var assetMaps = {};
         },
         load: function(e) {
             window.asd = f;
-            // debugger;
+            if (!e.includes("json")) debugger;
             var originalFileName = e;
             console.log(originalFileName);
             var t = this
@@ -18136,10 +18150,10 @@ var assetMaps = {};
                 e = s.default.join(y, "" + a + f.default.encryptPath(e, i))
             }
             o && (e += o);
-            var u = (0,
-            g.default)(e);
+            var u = (0, g.default)(e);
             v && u.responseType("arraybuffer");
             var c = function(e) {
+                debugger;
                 if (!e)
                     return I();
                 var r = void 0;
@@ -21078,6 +21092,7 @@ var assetMaps = {};
               , r = o(n, 2)
               , i = r[0]
               , a = r[1];
+            debugger;
             return this.isGashaTicket() ? c.default.createImagePath(i, a, this._getGashaIcon()) : c.default.createImagePath(i, a, this._getContentId(), this.content.hash)
         },
         isGashaTicket: function() {
@@ -31418,6 +31433,7 @@ var assetMaps = {};
     t.default = {
         getMoviePath: function() {
             var e = !(arguments.length > 0 && void 0 !== arguments[0]) || arguments[0];
+            debugger;
             return s.default.createMoviePath("updates", this._getAssetPathCategory(), this.id, this.hash, e)
         },
         getBgmPath: function() {
@@ -32057,6 +32073,7 @@ var assetMaps = {};
             return t.filter(function(e) {
                 return e.isReady
             }).map(function(t) {
+                debugger;
                 var n = t.idol
                   , r = t.mypageComments
                   , o = t.costumeType
@@ -43246,11 +43263,13 @@ var assetMaps = {};
         }, {
             key: "_getProduceIdolImagePath",
             value: function(e) {
+                debugger;
                 return l.default.createImagePath("idols", e, this.idol.id, this.idol.hash)
             }
         }, {
             key: "_getSupportIdolImagePath",
             value: function(e) {
+                debugger;
                 return l.default.createImagePath("support_idols", e, this.idol.id, this.idol.hash)
             }
         }, {
@@ -49488,6 +49507,7 @@ var assetMaps = {};
                       , t = this._gameManager.standby(e)
                       , n = JSON.stringify(t);
                     return this._serverAction.standby(e).then(function(r) {
+                        debugger;
                         r && r.hash !== t.hash && (T || (P({
                             requestParams: e,
                             serverResponse: r,
@@ -49515,6 +49535,7 @@ var assetMaps = {};
                     var s = this._gameManager.appeal(a)
                       , u = JSON.stringify(s);
                     return this._serverAction.appeal(i).then(function(e) {
+                        debugger;
                         e && e.hash !== s.hash && S && (P({
                             requestParams: i,
                             serverResponse: e,
@@ -51083,7 +51104,7 @@ object-assign
             this.reqUrl = this.url,
             // debugger;
             console.log(this.name, this.reqUrl);
-            debugger
+//             debugger
             this._originLoad(e)
         }
           , C = {
@@ -67688,6 +67709,7 @@ object-assign
               , o = r.sharedConcertPassiveSkills
               , i = void 0 === o ? [] : o
               , a = 0 !== i.length ? i[0] : null;
+              debugger;
             if (a) {
                 T.default.setPassiveSkillMixin(a.concertPassiveSkill),
                 e.utils.setPrototypeOf(a.idol, h.default),
