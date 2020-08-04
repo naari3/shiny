@@ -81,7 +81,7 @@ const largeBufferToString = (buf) => {
         const res = await fetch("http://localhost:8080/receive", { method, headers, body })
 
         if (count % 1000 === 0) console.info(count);
-        const sleepTime = 100 + Math.random() * 100 + (count % 500 === 0 ? 1000 : 0);
+        const sleepTime = 100 + Math.random() * 50 + (count % 500 === 0 ? 1000 : 0);
         await sleep(100 + Math.random() * 100);
     }
 })()
