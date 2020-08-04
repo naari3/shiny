@@ -75,8 +75,7 @@ const largeBufferToString = (buf) => {
         const method = "POST";
         const body = JSON.stringify(obj);
         const headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Accept': 'application/json'
         };
 
         const res = await fetch("http://localhost:8080/receive", { method, headers, body })
