@@ -5,6 +5,7 @@ result = Object.entries(assetMaps).map(m => m[1].body).reduce((r, o) => {
 
 const paths = mmodules(22);
 const utils = asd.default;
+const client = mmodules(4);
 
 const SHINY_HOST = "https://shinycolors.enza.fun/";
 
@@ -17,7 +18,9 @@ const getAsset = async (assetName, version) => {
     const assetPath = assetName.includes("/assets/") ? assetName : "/assets/" + assetName;
     const encryptedName = utils.encryptPath(assetPath, name);
 
-    const assetUrl = SHINY_HOST + "assets/" + (isAssetMap ? "asset-map-" : "") + encryptedName + (ext === ".m4a" ? ".m4a" : "") + (version ? "?v=" + version : "");
+    const exactExts = [".m4a", ".mp4"];
+
+    const assetUrl = SHINY_HOST + "assets/" + (isAssetMap ? "asset-map-" : "") + encryptedName + (exactExts.includes(ext) ? ext : "") + (version ? "?v=" + version : "");
     // console.log(assetUrl);
 
     const response = await fetch(assetUrl);
@@ -41,12 +44,43 @@ const largeBufferToString = (buf) => {
     const tmp = [];
     const len = 102400;
     for (let p = 0; p < buf.byteLength; p += len) {
-      tmp.push(bufferToString(buf.slice(p, p + len)));
+        tmp.push(bufferToString(buf.slice(p, p + len)));
     }
     return tmp.join("");
 }
 
+const assignHash = (path, hashMap) => {
+    const ext = paths.extname(path);
+    const name = paths.basename(path, ext);
+    const hash = hashMap[name];
+    if (hash) {
+        const assignedHash = `${hash}_${name}${ext}`;
+        const dirName = paths.dirname(path);
+        return paths.join(dirName, assignedHash);
+    } else {
+        return path;
+    }
+}
+
+const convertToMap = (assets) =>
+    assets.reduce((obj, v) => {
+        obj[v.id] = v.hash;
+        return obj;
+    }, {});
+
 (async () => {
+    const characters = await Promise.all(
+        [...Array(24).keys()].slice(1).map(
+            async (i) => (await client.post(`characterAlbums/characters/${i}`)).body
+        )
+    );
+    debugger;
+    const hashMap = characters.reduce((o, i) => {
+        const map = Object.assign(o, convertToMap(i.idolCostumes), convertToMap(i.produceIdols), convertToMap(i.supportIdols));
+        map[String(i.id).padStart(3, "0")] = i.hash;
+        return map;
+    }
+        , {})
     const assetMapChunkMetas = JSON.parse(await getAsset("/assets/asset-map.json"));
     const chunks = await Promise.all(
         assetMapChunkMetas.chunks.map(d => Object.entries(d)).map(d => d[0]).map(async (chunkData) => {
@@ -55,12 +89,15 @@ const largeBufferToString = (buf) => {
     );
     const assetMap = chunks.reduce((a, b) => Object.assign(a, b));
     console.log(Object.keys(assetMap).length);
-    const targetAssets = Object.entries(assetMap).filter(a => !a[0].includes(".mp4"));
+    let count = 21000;
+    targetAssets = Object.entries(assetMap).slice(count);
+    // targetAssets = Object.entries(assetMap).filter(a => a[0].includes(".mp4")).slice(count);
+    console.log(Object.keys(targetAssets).length);
     const textEncoder = new TextEncoder();
-    let count = 0;
     for (const a of targetAssets) {
         count++;
-        const asset = await getAsset(...a);
+        const assetInfo = [assignHash(a[0], hashMap), a[1]];
+        const asset = await getAsset(...assetInfo);
         let assetArray = [];
         if (typeof asset === "string") {
             assetArray = textEncoder.encode(asset);
@@ -80,8 +117,9 @@ const largeBufferToString = (buf) => {
 
         const res = await fetch("http://localhost:8080/receive", { method, headers, body })
 
-        if (count % 1000 === 0) console.info(count);
+        if (count % 1000 === 0) console.error(count);
         const sleepTime = 100 + Math.random() * 50 + (count % 500 === 0 ? 1000 : 0);
-        await sleep(100 + Math.random() * 100);
+        // await sleep(100 + Math.random() * 100);
     }
+    console.log("COMPLETED!")
 })()
